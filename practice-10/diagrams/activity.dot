@@ -1,0 +1,14 @@
+digraph DeliveryActivity {
+ graph [label="№10 — расчёт доставки через DeliveryPolicy",labelloc=t,fontname="DejaVu Sans",fontsize=18,ranksep=.55,nodesep=.38,bgcolor="white",pad=.25];
+ node [fontname="DejaVu Sans",fontsize=11,style="rounded,filled",fillcolor="#eff6ff",color="#67869d"];edge [fontname="DejaVu Sans",fontsize=10,color="#64748b"];
+ s [label="Начало",shape=ellipse,fillcolor="#dcfce7"];
+ input [label="Получить тип, расстояние и вес",shape=parallelogram,fillcolor="#f3e8ff"];
+ valid [label="DeliveryRequest корректен?",shape=diamond,fillcolor="#fef3c7"];
+ fac [label="factory.create(type)\n→ DeliveryPolicy"];
+ support [label="policy.supports(request)?",shape=diamond,fillcolor="#fef3c7"];
+ calc [label="policy.calculateCost(request)"];
+ result [label="Вернуть стоимость",fillcolor="#dcfce7"];
+ err [label="Сообщить причину недоступности",fillcolor="#fee2e2"];
+ end [label="Завершение",shape=ellipse,fillcolor="#dcfce7"];
+ s->input->valid;valid->err[label="нет"];valid->fac[label="да"];fac->support;support->err[label="нет"];support->calc[label="да"];calc->result->end;err->end;
+}

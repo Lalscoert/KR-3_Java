@@ -1,0 +1,17 @@
+digraph CustomerActivity {
+ graph [label="№11 — пакетный импорт CSV",labelloc=t,fontname="DejaVu Sans",fontsize=18,ranksep=.55,nodesep=.4,bgcolor="white",pad=.25];
+ node [fontname="DejaVu Sans",fontsize=10,style="rounded,filled",fillcolor="#eff6ff",color="#67869d"];edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ s [label="Начало",shape=ellipse,fillcolor="#dcfce7"];
+ open [label="Открыть CSV в UTF-8\nFiles.newBufferedReader",shape=parallelogram,fillcolor="#f3e8ff"];
+ access [label="Файл и заголовок корректны?",shape=diamond,fillcolor="#fef3c7"];
+ read [label="Читать следующую строку"];
+ has [label="Строка есть?",shape=diamond,fillcolor="#fef3c7"];
+ parse [label="parser.parse(line)"];
+ val [label="validator.validate(customer)\nи ИНН ещё не использован?",shape=diamond,fillcolor="#fef3c7"];
+ ok [label="result.addAccepted(customer)\nusedInns.add(inn)"];
+ bad [label="result.addRejected(номер, причина)",fillcolor="#fee2e2"];
+ fail [label="Ошибка открытия / заголовка\nзавершить импорт",fillcolor="#fee2e2"];
+ summary [label="Вернуть ImportResult\nс принятыми и отклонёнными"];
+ end [label="Завершение",shape=ellipse,fillcolor="#dcfce7"];
+ s->open->access;access->fail[label="нет"];access->read[label="да"];read->has;has->summary[label="нет"];has->parse[label="да"];parse->val[label="корректная структура"];parse->bad[label="ошибка парсинга"];val->ok[label="да"];val->bad[label="нет"];bad->read;ok->read;summary->end;fail->end;
+}

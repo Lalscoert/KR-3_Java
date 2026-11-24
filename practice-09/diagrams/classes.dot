@@ -1,0 +1,13 @@
+digraph WarehouseClasses {
+ graph [label="№9 — диаграмма классов (по реализованным файлам)",labelloc=t,fontname="DejaVu Sans",fontsize=18,ranksep=.6,nodesep=.4,bgcolor="white",pad=.3];
+ node [shape=record,style="rounded,filled",fontname="DejaVu Sans",fontsize=10,fillcolor="#eff6ff",color="#587b96"];
+ edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ w [label="{Warehouse|- items: Map\<String, StockItem\>\l- movements: List\<StockMovement\>\l- MIN_RESERVE: int = 25\l|+ addItem(StockItem)\l+ receive(String,int)\l+ issue(String,int)\l+ findByCode(String): StockItem\l+ findByCategory(Category): List\l+ totalsByCategory(): Map\l+ getUniqueCategories(): Set\l+ getAllItems(): List\l+ getMovements(): List\l}"];
+ si [label="{StockItem|- code: String\l- name: String\l- category: Category\l- quantity: int\l|+ increase(int)\l+ decrease(int)\l+ copy(): StockItem\l+ getters(), equals(), hashCode()\l}"];
+ sm [label="{StockMovement|- itemCode: String\l- type: MovementType\l- quantity: int\l|+ getters()\l}"];
+ cat [label="{«enum» Category|COMPUTER; MONITOR; PRINTER; OTHER}",fillcolor="#f3e8ff"];
+ mt [label="{«enum» MovementType|RECEIVE; ISSUE}",fillcolor="#f3e8ff"];
+ main [label="{Main|+ main(String[]): void}",fillcolor="#f8fafc"];
+ test [label="{SelfCheck|+ main(String[]): void}",fillcolor="#f8fafc"];
+ w -> si [label="хранит 0..*",arrowhead=diamond];w->sm [label="журнал 0..*",arrowhead=diamond];si->cat [label="категория",style=dashed];sm->mt [label="тип",style=dashed]; main->w [style=dashed,label="использует"];test->w [style=dashed,label="проверяет"];
+}

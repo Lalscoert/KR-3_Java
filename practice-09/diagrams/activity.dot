@@ -1,0 +1,20 @@
+digraph WarehouseActivity {
+ graph [label="№9 — складская операция (фактический алгоритм)",labelloc=t,fontname="DejaVu Sans",fontsize=18,ranksep=.55,nodesep=.38,bgcolor="white",pad=.25];
+ node [fontname="DejaVu Sans",fontsize=11,style="rounded,filled",fillcolor="#eff6ff",color="#67869d",penwidth=1.25];edge [fontname="DejaVu Sans",fontsize=10,color="#64748b"];
+ start [label="Начало",shape=ellipse,fillcolor="#dcfce7",color="#36a16c"];
+ input [label="Получить операцию, код и количество",shape=parallelogram,fillcolor="#f3e8ff"];
+ found [label="Код существует?",shape=diamond,fillcolor="#fef3c7"];
+ pos [label="Количество > 0?",shape=diamond,fillcolor="#fef3c7"];
+ kind [label="Операция ISSUE?",shape=diamond,fillcolor="#fef3c7"];
+ enough [label="Количество ≤ остаток?",shape=diamond,fillcolor="#fef3c7"];
+ reserve [label="Остаток после выдачи ≥ 25?",shape=diamond,fillcolor="#fef3c7"];
+ issue [label="StockItem.decrease(количество)"];
+ receive [label="StockItem.increase(количество)"];
+ record [label="Добавить StockMovement в журнал"];
+ done [label="Операция завершена",shape=ellipse,fillcolor="#dcfce7",color="#36a16c"];
+ error [label="Сообщить об ошибке\nне изменяя остаток и журнал",fillcolor="#fee2e2",color="#df8080"];
+ start->input->found;found->error[label="нет"];found->pos[label="да"];pos->error[label="нет"];pos->kind[label="да"];
+ kind->enough[label="да"];kind->receive[label="нет (RECEIVE)"];
+ enough->error[label="нет"];enough->reserve[label="да"];reserve->error[label="нет"];reserve->issue[label="да"];
+ issue->record;receive->record;record->done;error->done;
+}

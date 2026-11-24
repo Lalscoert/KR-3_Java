@@ -1,0 +1,8 @@
+name;inn;email
+Ivan;1234567890;ivan@mail.ru
+Olga;123456789012;olga@mail.ru
+BadInn;123;bad@mail.ru
+BadEmail;1111111111;wrong-email
+Duplicate;1234567890;duplicate@mail.ru
+Petr;9876543210;petr@mail.ru
+;2222222222;empty@mail.ru

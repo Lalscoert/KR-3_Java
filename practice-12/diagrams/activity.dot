@@ -1,0 +1,19 @@
+digraph SalesActivity {
+ graph [label="№12 — Stream API: выборка и максимум",labelloc=t,fontname="DejaVu Sans",fontsize=18,ranksep=.55,nodesep=.4,bgcolor="white",pad=.25];
+ node [fontname="DejaVu Sans",fontsize=10,style="rounded,filled",fillcolor="#eff6ff",color="#67869d"];edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ start [label="Начало",shape=ellipse,fillcolor="#dcfce7"];
+ input [label="Получить список продаж",shape=parallelogram,fillcolor="#f3e8ff"];
+ valid [label="Список корректен?",shape=diamond,fillcolor="#fef3c7"];
+ op [label="Операция topSales?",shape=diamond,fillcolor="#fef3c7"];
+ filter [label="stream → filter(amount ≥ minimum)"];
+ sort [label="sorted(по сумме ↓, затем ID ↑)"];
+ limit [label="limit(n) → toList()"];
+ max [label="stream → max(по сумме)"];
+ empt [label="Продажа найдена?",shape=diamond,fillcolor="#fef3c7"];
+ result [label="Вернуть List<Sale>\n(может быть пустым)",fillcolor="#dcfce7"];
+ some [label="Вернуть Optional<Sale>",fillcolor="#dcfce7"];
+ none [label="Вернуть Optional.empty()",fillcolor="#dcfce7"];
+ fail [label="Контролируемая ошибка ввода",fillcolor="#fee2e2"];
+ end [label="Завершение",shape=ellipse,fillcolor="#dcfce7"];
+ start->input->valid;valid->fail[label="нет"];valid->op[label="да"];op->filter[label="да"];filter->sort->limit->result->end;op->max[label="нет (maxSale)"];max->empt;empt->some[label="да"];empt->none[label="нет"];some->end;none->end;fail->end;
+}

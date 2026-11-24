@@ -1,0 +1,5 @@
+# скомпилированные java-файлы
+*.class
+**/out/
+.vscode/
+.idea/

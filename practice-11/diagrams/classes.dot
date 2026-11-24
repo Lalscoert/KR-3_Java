@@ -1,0 +1,12 @@
+digraph CustomerClasses {
+ graph [label="№11 — диаграмма классов по реализации",labelloc=t,fontname="DejaVu Sans",fontsize=17,ranksep=.5,nodesep=.4,bgcolor="white",pad=.25];
+ node [shape=record,style="rounded,filled",fontname="DejaVu Sans",fontsize=9,fillcolor="#eff6ff",color="#587b96"];edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ customer [label="{Customer|- name: String\l- inn: String\l- email: String\l|+ getters()\l}"];
+ parser [label="{CustomerCsvParser|+ parse(String): Customer\l}"];
+ validator [label="{CustomerValidator|- MAX_NAME_LENGTH: int = 25\l|+ validate(Customer): void\l}"];
+ result [label="{ImportResult|- customers: List\<Customer\>\l- errors: List\<String\>\l|+ addAccepted(Customer)\l+ addRejected(int,String)\l+ getAcceptedCount(): int\l+ getRejectedCount(): int\l+ getCustomers(): List\l+ getErrors(): List\l+ printReport(): void\l}"];
+ service [label="{CustomerImportService|- parser: CustomerCsvParser\l- validator: CustomerValidator\l|+ importFile(Path): ImportResult\l}"];
+ main [label="{Main|+ main(String[]): void}",fillcolor="#f8fafc"];
+ test [label="{SelfCheck|+ main(String[]): void}",fillcolor="#f8fafc"];
+ service->parser[label="содержит"];service->validator[label="содержит"];service->result[label="создаёт",style=dashed];parser->customer[label="создаёт",style=dashed];validator->customer[label="проверяет",style=dashed];result->customer[label="хранит 0..*",arrowhead=diamond];main->service[style=dashed];test->service[style=dashed];
+}

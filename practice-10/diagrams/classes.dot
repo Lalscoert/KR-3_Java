@@ -1,0 +1,17 @@
+digraph DeliveryClasses {
+ graph [label="№10 — диаграмма классов по реализации",labelloc=t,fontname="DejaVu Sans",fontsize=17,ranksep=.5,nodesep=.35,bgcolor="white",pad=.25];
+ node [shape=record,style="rounded,filled",fontname="DejaVu Sans",fontsize=9,fillcolor="#eff6ff",color="#587b96"];edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ request [label="{DeliveryRequest|- type: DeliveryType\l- distanceKm: double\l- weightKg: double\l|+ getters()\l}"];
+ type [label="{«enum» DeliveryType|PICKUP; STANDARD; EXPRESS; ECONOMY}",fillcolor="#f3e8ff"];
+ pol [label="{«interface» DeliveryPolicy|+ supports(DeliveryRequest): boolean\l+ calculateCost(DeliveryRequest): double\l}",fillcolor="#dcfce7"];
+ pickup [label="{PickupPolicy|+ supports(...)\l+ calculateCost(...)\l}"];
+ std [label="{StandardCourierPolicy|+ supports(...)\l+ calculateCost(...)\l}"];
+ exp [label="{ExpressPolicy|+ supports(...)\l+ calculateCost(...)\l}"];
+ eco [label="{EconomyPolicy|- COST_PER_KM: double = 25\l|+ supports(...)\l+ calculateCost(...)\l}"];
+ factory [label="{DeliveryPolicyFactory|+ create(DeliveryType): DeliveryPolicy\l}"];
+ service [label="{DeliveryService|- factory: DeliveryPolicyFactory\l|+ calculateCost(DeliveryRequest): double\l+ canDeliver(DeliveryRequest): boolean\l}"];
+ main [label="{Main|+ main(String[]): void}",fillcolor="#f8fafc"];
+ test [label="{SelfCheck|+ main(String[]): void}",fillcolor="#f8fafc"];
+ pickup->pol[arrowhead=empty,style=dashed];std->pol[arrowhead=empty,style=dashed];exp->pol[arrowhead=empty,style=dashed];eco->pol[arrowhead=empty,style=dashed];
+ service->factory[label="использует"];factory->pol[label="создаёт",style=dashed];service->request[style=dashed,label="читает"];request->type[style=dashed];main->service[style=dashed];test->service[style=dashed];
+}

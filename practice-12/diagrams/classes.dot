@@ -1,0 +1,9 @@
+digraph SalesClasses {
+ graph [label="№12 — диаграмма классов по реализации",labelloc=t,fontname="DejaVu Sans",fontsize=17,ranksep=.55,nodesep=.42,bgcolor="white",pad=.25];
+ node [shape=record,style="rounded,filled",fontname="DejaVu Sans",fontsize=10,fillcolor="#eff6ff",color="#587b96"];edge [fontname="DejaVu Sans",fontsize=9,color="#64748b"];
+ sale [label="{Sale|- id: String\l- manager: String\l- amount: BigDecimal\l|+ getId(): String\l+ getManager(): String\l+ getAmount(): BigDecimal\l}"];
+ service [label="{SalesAnalyticsService|- LARGE_SALE_THRESHOLD: BigDecimal = 25\l- SALE_COMPARATOR: Comparator\<Sale\>\l|+ topSales(List,BigDecimal,int): List\l+ maxSale(List): Optional\<Sale\>\l+ totalsByManager(List): Map\l+ totalAmount(List): BigDecimal\l+ countLargeSales(List): long\l}"];
+ main [label="{Main|+ main(String[]): void}",fillcolor="#f8fafc"];
+ test [label="{SelfCheck|+ main(String[]): void}",fillcolor="#f8fafc"];
+ service->sale[label="анализирует 0..*",style=dashed];main->service[style=dashed];test->service[style=dashed];
+}
